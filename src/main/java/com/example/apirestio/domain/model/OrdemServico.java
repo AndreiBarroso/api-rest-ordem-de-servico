@@ -5,9 +5,9 @@ import com.example.apirestio.api.model.Comentario;
 import com.example.apirestio.domain.exception.NegocioException;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -22,13 +22,13 @@ public class OrdemServico {
 	private Cliente cliente;
 
 	private String descricao;
-	private BigDecimal preco;
+	private Integer preco;
 
 	@Enumerated(EnumType.STRING)
 	private StatusOrdemServico status;
 
-	private OffsetDateTime dataAbertura;
-	private OffsetDateTime dataFinalizacao;
+	private Date dataAbertura;
+	private Date dataFinalizacao;
 
 	@OneToMany(mappedBy = "ordemServico")
 	private List<Comentario> comentarios = new ArrayList<>();
@@ -57,11 +57,11 @@ public class OrdemServico {
 		this.descricao = descricao;
 	}
 
-	public BigDecimal getPreco() {
+	public Integer getPreco() {
 		return preco;
 	}
 
-	public void setPreco(BigDecimal preco) {
+	public void setPreco(Integer preco) {
 		this.preco = preco;
 	}
 
@@ -73,19 +73,19 @@ public class OrdemServico {
 		this.status = status;
 	}
 
-	public OffsetDateTime getDataAbertura() {
+	public Date getDataAbertura() {
 		return dataAbertura;
 	}
 
-	public void setDataAbertura(OffsetDateTime dataAbertura) {
+	public void setDataAbertura(Date dataAbertura) {
 		this.dataAbertura = dataAbertura;
 	}
 
-	public OffsetDateTime getDataFinalizacao() {
+	public Date getDataFinalizacao() {
 		return dataFinalizacao;
 	}
 
-	public void setDataFinalizacao(OffsetDateTime dataFinalizacao) {
+	public void setDataFinalizacao(Date dataFinalizacao) {
 		this.dataFinalizacao = dataFinalizacao;
 	}
 
@@ -136,7 +136,7 @@ public class OrdemServico {
 		}
 
 		setStatus(StatusOrdemServico.FINALIZADA);
-		setDataFinalizacao(OffsetDateTime.now());
+		setDataFinalizacao(Date.from(Instant.MAX));
 	}
 
 }

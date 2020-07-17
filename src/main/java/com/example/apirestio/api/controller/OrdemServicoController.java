@@ -5,13 +5,21 @@ import com.example.apirestio.api.model.OrdemServicoModel;
 import com.example.apirestio.domain.model.OrdemServico;
 import com.example.apirestio.domain.repository.OrdemServicoRepository;
 import com.example.apirestio.domain.service.GestaoOrdemServicoService;
+import com.example.apirestio.domain.service.OrdemServiceImpl;
+import com.itextpdf.text.DocumentException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,6 +30,9 @@ public class OrdemServicoController {
 
     @Autowired
     private GestaoOrdemServicoService gestaoOrdemServico;
+
+    @Autowired
+    private OrdemServiceImpl ordemServiceImpl;
 
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
@@ -72,6 +83,21 @@ public class OrdemServicoController {
 
     private OrdemServico toEntity(OrdemServicoInput ordemServicoInput) {
         return modelMapper.map(ordemServicoInput, OrdemServico.class);
+    }
+
+    @GetMapping(value = "/report")
+    public @ResponseBody
+    ResponseEntity<InputStreamResource> downloadReport(HttpServletResponse response) throws DocumentException {
+        ByteArrayInputStream result = ordemServiceImpl.getReport();
+        HttpHeaders headers = new HttpHeaders();
+        String documentName = "cliente-" + LocalDate.now().toString() + ".pdf";
+        headers.add("Content-Disposition", "inline; filename=" + documentName);
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(result));
     }
 
 }
