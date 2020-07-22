@@ -7,11 +7,20 @@ import com.example.apirestio.domain.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CadastroClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    public Cliente buscarPorId ( Long clienteId) {
+        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+
+        return cliente.orElseThrow(() -> new NegocioException(
+                "Objeto não encontrado! Id: " + clienteId + ", Tipo: " + Cliente.class.getName()));
+    }
 
     public Cliente salvar(Cliente cliente) {
         Cliente clienteExistente = clienteRepository.findByEmail(cliente.getEmail());

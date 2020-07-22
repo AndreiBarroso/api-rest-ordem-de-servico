@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -41,15 +40,11 @@ public class ClienteController {
         return clienteRepository.findAll();
     }
 
-    @GetMapping("/{clienteId}")
-    public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
-        Optional<Cliente> cliente = clienteRepository.findById(clienteId);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Cliente> buscar(@PathVariable Long id) {
+        Cliente cliente = cadastroCliente.buscarPorId(id);
 
-        if (cliente.isPresent()) {
-            return ResponseEntity.ok(cliente.get());
-        }
-
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(cliente);
     }
 
     @PostMapping

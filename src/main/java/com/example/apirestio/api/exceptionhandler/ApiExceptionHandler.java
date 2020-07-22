@@ -2,6 +2,7 @@ package com.example.apirestio.api.exceptionhandler;
 
 import com.example.apirestio.domain.exception.EntidadeNaoEncontradaException;
 import com.example.apirestio.domain.exception.NegocioException;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

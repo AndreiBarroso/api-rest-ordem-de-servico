@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -15,7 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
@@ -27,10 +27,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.flywaydb</groupId>-->
-<!--			<artifactId>flyway-core</artifactId>-->
-<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>org.flywaydb</groupId>-->
+		<!--			<artifactId>flyway-core</artifactId>-->
+		<!--		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,21 +74,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
 		<dependency>
-			<groupId>com.itextpdf</groupId>
-			<artifactId>itextpdf</artifactId>
-			<version>5.5.13.1</version>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>spring-mock-mvc</artifactId>
+			<scope>test</scope>
 		</dependency>
-
-
-		<dependency>
-			<groupId>org.apache.pdfbox</groupId>
-			<artifactId>pdfbox</artifactId>
-			<version>2.0.11</version>
-		</dependency>
-
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
