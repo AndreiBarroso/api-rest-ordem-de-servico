@@ -40,7 +40,7 @@ public class ClienteController {
         return clienteRepository.findAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMappin(value = "/{id}")
     public ResponseEntity<Cliente> buscar(@PathVariable Long id) {
         Cliente cliente = cadastroCliente.buscarPorId(id);
 
