@@ -6,7 +6,7 @@ import com.example.apirestio.api.model.ComentarioModel;
 import com.example.apirestio.domain.exception.EntidadeNaoEncontradaException;
 import com.example.apirestio.domain.model.OrdemServico;
 import com.example.apirestio.domain.repository.OrdemServicoRepository;
-import com.example.apirestio.domain.service.GestaoOrdemServicoService;
+import com.example.apirestio.domain.service.GestaoOrdemServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class ComentarioController {
 
     @Autowired
-    private GestaoOrdemServicoService gestaoOrdemServico;
+    private GestaoOrdemServiceImpl gestaoOrdemServico;
 
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;

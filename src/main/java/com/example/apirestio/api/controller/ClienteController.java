@@ -2,7 +2,6 @@ package com.example.apirestio.api.controller;
 
 import com.example.apirestio.domain.model.Cliente;
 import com.example.apirestio.domain.repository.ClienteRepository;
-import com.example.apirestio.domain.service.CadastroClienteService;
 import com.example.apirestio.domain.service.ClienteServiceImpl;
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,9 +25,6 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clienteRepository;
-
-    @Autowired
-    private CadastroClienteService cadastroCliente;
 
     private ClienteServiceImpl clienteServiceReport;
 
@@ -42,15 +39,18 @@ public class ClienteController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Cliente> buscar(@PathVariable Long id) {
-        Cliente cliente = cadastroCliente.buscarPorId(id);
+        Optional<Cliente> cliente = clienteRepository.findById(id);
 
-        return ResponseEntity.ok().body(cliente);
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cliente adicionar(@Valid @RequestBody Cliente cliente) {
-        return cadastroCliente.salvar(cliente);
+        return clienteServiceReport.save(cliente);
     }
 
     @PutMapping("/{clienteId}")
@@ -62,7 +62,7 @@ public class ClienteController {
         }
 
         cliente.setId(clienteId);
-        cliente = cadastroCliente.salvar(cliente);
+        cliente = clienteServiceReport.save(cliente);
 
         return ResponseEntity.ok(cliente);
     }
@@ -73,7 +73,7 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
 
-        cadastroCliente.excluir(clienteId);
+        clienteServiceReport.delete(clienteId);
 
         return ResponseEntity.noContent().build();
     }

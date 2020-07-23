@@ -4,8 +4,7 @@ import com.example.apirestio.api.model.OrdemServicoInput;
 import com.example.apirestio.api.model.OrdemServicoModel;
 import com.example.apirestio.domain.model.OrdemServico;
 import com.example.apirestio.domain.repository.OrdemServicoRepository;
-import com.example.apirestio.domain.service.GestaoOrdemServicoService;
-import com.example.apirestio.domain.service.OrdemServiceImpl;
+import com.example.apirestio.domain.service.GestaoOrdemServiceImpl;
 import com.itextpdf.text.DocumentException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +28,7 @@ import java.util.stream.Collectors;
 public class OrdemServicoController {
 
     @Autowired
-    private GestaoOrdemServicoService gestaoOrdemServico;
-
-    @Autowired
-    private OrdemServiceImpl ordemServiceImpl;
+    private GestaoOrdemServiceImpl gestaoOrdemServico;
 
     @Autowired
     private OrdemServicoRepository ordemServicoRepository;
@@ -45,7 +41,7 @@ public class OrdemServicoController {
     public OrdemServicoModel criar(@Valid @RequestBody OrdemServicoInput ordemServicoInput) {
         OrdemServico ordemServico = toEntity(ordemServicoInput);
 
-        return toModel(gestaoOrdemServico.criar(ordemServico));
+        return toModel(gestaoOrdemServico.save(ordemServico));
     }
 
     @GetMapping
@@ -88,7 +84,7 @@ public class OrdemServicoController {
     @GetMapping(value = "/report")
     public @ResponseBody
     ResponseEntity<InputStreamResource> downloadReport(HttpServletResponse response) throws DocumentException {
-        ByteArrayInputStream result = ordemServiceImpl.getReport();
+        ByteArrayInputStream result = gestaoOrdemServico.getReport();
         HttpHeaders headers = new HttpHeaders();
         String documentName = "cliente-" + LocalDate.now().toString() + ".pdf";
         headers.add("Content-Disposition", "inline; filename=" + documentName);
